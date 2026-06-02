@@ -1,0 +1,25 @@
+# 依赖
+node_modules/
+.next/
+
+# 环境变量
+.env
+.env.local
+.env.production
+
+# 数据库
+prisma/dev.db
+prisma/dev.db-journal
+
+# IDE
+.vscode/
+.idea/
+
+# 系统
+.DS_Store
+Thumbs.db
+
+# 调试
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

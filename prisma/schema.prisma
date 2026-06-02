@@ -1,0 +1,112 @@
+// Prisma Schema — "周日晚饭吃什么" 数据库模型
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ==================== 白名单 ====================
+model Whitelist {
+  id        String   @id @default(cuid())
+  wechatId  String   @unique
+  nickname  String?
+  isUsed    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ==================== 用户 ====================
+model User {
+  id        String   @id @default(cuid())
+  wechatId  String   @unique
+  nickname  String?
+  avatarUrl String?
+  role      String   @default("USER")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  stores  Store[]
+  ratings Rating[]
+
+  @@index([wechatId])
+  @@index([role])
+}
+
+// ==================== 店铺 ====================
+model Store {
+  id          String  @id @default(cuid())
+  name        String
+  description String?
+  category    String?
+  address     String?
+  status      String  @default("ACTIVE")
+
+  uploaderId String
+  uploader   User   @relation(fields: [uploaderId], references: [id], onDelete: Cascade)
+
+  // 评分缓存字段
+  avgWantScore      Float @default(0)
+  avgTasteScore     Float @default(0)
+  avgValueScore     Float @default(0)
+  avgAmbienceScore  Float @default(0)
+  avgSpeedScore     Float @default(0)
+  recommendCount    Int   @default(0)
+  notRecommendCount Int   @default(0)
+  ratingCount       Int   @default(0)
+  compositeScore    Float @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  mapLinks MapLink[]
+  ratings  Rating[]
+
+  @@index([uploaderId])
+  @@index([status])
+  @@index([category])
+  @@index([compositeScore(sort: Desc)])
+}
+
+// ==================== 地图链接 ====================
+model MapLink {
+  id        String  @id @default(cuid())
+  storeId   String
+  store     Store   @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  provider  String
+  url       String
+  longitude Float?
+  latitude  Float?
+
+  @@unique([storeId, provider])
+  @@index([storeId])
+}
+
+// ==================== 多维评分 ====================
+model Rating {
+  id      String @id @default(cuid())
+  userId  String
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  storeId String
+  store   Store  @relation(fields: [storeId], references: [id], onDelete: Cascade)
+
+  // 六个评分维度
+  wantScore     Int    // 想吃指数 (1-5)
+  triedRating   String @default("NOT_TRIED") // 吃过评级
+  tasteScore    Int?   // 口味 (1-5)
+  valueScore    Int?   // 性价比 (1-5)
+  ambienceScore Int?   // 环境氛围 (1-5)
+  speedScore    Int?   // 上菜速度 (1-5)
+  comment       String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, storeId])
+  @@index([storeId])
+  @@index([userId])
+}
