@@ -5,8 +5,9 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL")      // 连接池（运行时查询）
+  directUrl = env("POSTGRES_URL_NON_POOLING") // 直连（迁移用）
 }
 
 // ==================== 白名单 ====================
