@@ -1,10 +1,9 @@
 // 根布局
 
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Providers } from "@/components/layout/Providers";
 import "./globals.css";
-
-import type { Viewport } from "next";
 
 export const metadata: Metadata = {
   title: "周日晚饭吃什么",
@@ -37,6 +36,7 @@ export default function RootLayout({
     <html lang="zh-CN">
       <body>
         <Providers>{children}</Providers>
+        <SpeedInsights />
       </body>
     </html>
   );
