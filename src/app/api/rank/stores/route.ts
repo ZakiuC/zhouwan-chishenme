@@ -29,6 +29,7 @@ export async function GET(request: Request) {
         avgWantScore: true,
         ratingCount: true,
         recommendCount: true,
+        createdAt: true,
         uploader: { select: { nickname: true } },
       },
     });

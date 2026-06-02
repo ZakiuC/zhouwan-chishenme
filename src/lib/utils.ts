@@ -23,7 +23,9 @@ export function formatDate(date: Date | string): string {
  * 格式化日期为简短的相对时间（如 "3天前"）
  */
 export function formatRelativeTime(date: Date | string): string {
+  if (!date) return "";
   const d = new Date(date);
+  if (isNaN(d.getTime())) return "";
   const now = new Date();
   const diffMs = now.getTime() - d.getTime();
   const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
