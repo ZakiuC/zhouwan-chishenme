@@ -3,6 +3,11 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
+const ADMIN_IDS = (process.env.ADMIN_WECHAT_IDS || "")
+  .split(",")
+  .map((s) => s.trim())
+  .filter(Boolean);
+
 export async function POST(request: Request) {
   try {
     const { wechatId } = await request.json();
@@ -16,9 +21,17 @@ export async function POST(request: Request) {
 
     const trimmed = wechatId.trim();
 
-    const whitelistEntry = await prisma.whitelist.findUnique({
+    // 查找白名单
+    let whitelistEntry = await prisma.whitelist.findUnique({
       where: { wechatId: trimmed },
     });
+
+    // 懒初始化：管理员首次登录时自动加入白名单
+    if (!whitelistEntry && ADMIN_IDS.includes(trimmed)) {
+      whitelistEntry = await prisma.whitelist.create({
+        data: { wechatId: trimmed, nickname: "管理员" },
+      });
+    }
 
     if (!whitelistEntry) {
       return NextResponse.json({
