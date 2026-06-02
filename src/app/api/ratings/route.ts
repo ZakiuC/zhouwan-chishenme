@@ -4,6 +4,8 @@ import { NextResponse } from "next/server";
 import { getSession } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
+export const dynamic = "force-dynamic";
+
 // GET /api/ratings — 获取当前用户的所有评分
 export async function GET(request: Request) {
   try {
