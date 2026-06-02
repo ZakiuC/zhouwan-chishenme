@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import useSWR from "swr";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
@@ -16,17 +15,13 @@ const HK = "random_history";
 function getH(): string[] { if (typeof window === "undefined") return []; try { return JSON.parse(localStorage.getItem(HK) || "[]"); } catch { return []; } }
 function addH(id: string) { const h = getH(); localStorage.setItem(HK, JSON.stringify([id, ...h.filter(x => x !== id)].slice(0, 5))); }
 
-const FETCHER = (url: string) => fetch(url).then(r => { if (!r.ok) throw new Error(""); return r.json(); });
-
 export default function RandomPage() {
+  const [store, setStore] = useState<any>(undefined);
   const [rolling, setRolling] = useState(false);
   const [category, setCategory] = useState("");
   const [history, setHistory] = useState<string[]>([]);
-  const [url, setUrl] = useState("");
 
   useEffect(() => { setHistory(getH()); }, []);
-
-  const { data, isValidating, mutate } = useSWR(url, FETCHER, { revalidateOnFocus: false, dedupingInterval: 0 });
 
   const fetchR = useCallback(async () => {
     setRolling(true);
@@ -34,28 +29,28 @@ export default function RandomPage() {
     const p = new URLSearchParams();
     if (category) p.set("category", category);
     if (ex.length) p.set("exclude", ex.join(","));
-    const newUrl = `/api/random?${p.toString()}`;
 
-    // 延迟一下给动画时间
-    await new Promise(r => setTimeout(r, 1500));
+    // 动画延迟
+    await new Promise(r => setTimeout(r, 1200));
 
     try {
-      const res = await fetch(newUrl);
-      if (!res.ok) throw new Error("");
+      const res = await fetch(`/api/random?${p.toString()}`);
+      if (!res.ok) {
+        setStore(null);
+        return;
+      }
       const d = await res.json();
+      setStore(d.store);
       addH(d.store.id);
       setHistory(getH());
-      mutate(d, false);
     } catch {
-      mutate({ store: null }, false);
+      setStore(null);
     } finally {
       setRolling(false);
     }
-  }, [category, mutate]);
+  }, [category]);
 
-  useEffect(() => { fetchR(); }, []); // eslint-disable-line
-
-  const store = data?.store;
+  useEffect(() => { fetchR(); }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className="space-y-5 animate-fade-up">
@@ -100,7 +95,7 @@ export default function RandomPage() {
         {history.length > 1 && <div className="flex items-center gap-2 justify-center select-none"><span className="text-2xs text-paper-600">最近推荐（自动跳过）：</span>{history.slice(1, 4).map((_, i) => <span key={i} className="w-1.5 h-1.5 rounded-full bg-base-500" />)}</div>}
       </div>}
 
-      {!rolling && !store && <EmptyState icon="search" title="暂无推荐" description={category ? "该分类下店铺不足" : "还没有店铺"} action={<Link href="/stores/new"><Button>上传店铺</Button></Link>} />}
+      {!rolling && store === null && <EmptyState icon="search" title="暂无推荐" description={category ? "该分类下店铺不足" : "还没有店铺"} action={<Link href="/stores/new"><Button>上传店铺</Button></Link>} />}
     </div>
   );
 }
