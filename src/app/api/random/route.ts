@@ -40,10 +40,15 @@ export async function GET(request: Request) {
       },
     });
 
-    const selected = weightedRandomSelect(stores, excludeIds);
+    // 先尝试排除近期推荐
+    let selected = weightedRandomSelect(stores, excludeIds);
+    // 如果排除后没候选了，忽略排除再试一次
+    if (!selected) {
+      selected = weightedRandomSelect(stores, []);
+    }
 
     if (!selected) {
-      return NextResponse.json({ error: "没有可推荐的店铺" }, { status: 404 });
+      return NextResponse.json({ error: "还没有店铺，快去添加吧" }, { status: 404 });
     }
 
     return NextResponse.json({ store: selected });
