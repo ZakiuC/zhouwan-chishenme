@@ -9,14 +9,16 @@ export const metadata: Metadata = {
   title: "周日晚饭吃什么",
   description: "解决群友周日晚上不知道吃什么的终极方案",
   appleWebApp: {
-    capable: true,
-    statusBarStyle: "default",
     title: "周日晚饭吃什么",
+    statusBarStyle: "default",
   },
   openGraph: {
     title: "周日晚饭吃什么",
     description: "解决群友周日晚上不知道吃什么的终极方案",
     type: "website",
+  },
+  other: {
+    "mobile-web-app-capable": "yes",
   },
 };
 
