@@ -36,6 +36,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="zh-CN">
+      <head>
+        <style dangerouslySetInnerHTML={{ __html: `
+          *, *::before, *::after { cursor: default !important; }
+          input, textarea, select, [contenteditable] { cursor: text !important; }
+          a, button, [role="button"], [tabindex]:not([tabindex="-1"]) { cursor: pointer !important; }
+        `}} />
+      </head>
       <body>
         <Providers>{children}</Providers>
         <SpeedInsights />
