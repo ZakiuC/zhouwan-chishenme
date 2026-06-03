@@ -8,13 +8,14 @@ import { Icon } from "@/components/ui/Icon";
 // 雷达图按需加载，减少首屏 JS
 const RatingRadarChart = dynamic(
   () => import("./RatingRadarChart").then((m) => m.RatingRadarChart),
-  { ssr: false, loading: () => <div className="h-[220px] flex items-center justify-center"><div className="w-40 h-40 rounded-full bg-base-700/50 animate-pulse" /></div> }
+  { ssr: false, loading: () => <div className="h-[280px] flex items-center justify-center"><div className="w-56 h-56 rounded-full bg-base-700/50 animate-pulse" /></div> }
 );
 
 interface Props { store: { avgWantScore: number; avgTasteScore: number; avgValueScore: number; avgAmbienceScore: number; avgSpeedScore: number; compositeScore: number; ratingCount: number; recommendCount: number; notRecommendCount: number; }; }
 
 export function RatingSummary({ store }: Props) {
-  const radarData: Record<string, number> = { want: store.avgWantScore, taste: store.avgTasteScore, value: store.avgValueScore, ambience: store.avgAmbienceScore, speed: store.avgSpeedScore };
+  const triedScore = store.ratingCount > 0 ? (store.recommendCount / store.ratingCount) * 5 : 0;
+  const radarData: Record<string, number> = { want: store.avgWantScore, tried: triedScore, taste: store.avgTasteScore, value: store.avgValueScore, ambience: store.avgAmbienceScore, speed: store.avgSpeedScore };
   const bars = [
     { key: "avgWantScore", label: "想吃指数", score: store.avgWantScore },
     { key: "avgTasteScore", label: "口味", score: store.avgTasteScore },
@@ -32,7 +33,7 @@ export function RatingSummary({ store }: Props) {
           <p className="text-2xs text-paper-500">{store.ratingCount} 人评分</p>
         </div>
       </div>
-      {store.ratingCount > 0 && <div className="mb-4 flex justify-center"><RatingRadarChart data={radarData} size={220} /></div>}
+      {store.ratingCount > 0 && <div className="mb-4 flex justify-center"><RatingRadarChart data={radarData} size={280} /></div>}
       <div className="space-y-2.5 bg-base-800/60 rounded-xl p-3">
         {bars.map(b => <RatingBar key={b.key} label={b.label} score={b.score} />)}
       </div>
