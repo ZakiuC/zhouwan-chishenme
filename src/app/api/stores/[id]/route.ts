@@ -73,7 +73,7 @@ export async function PUT(
     if (!store) {
       return NextResponse.json({ error: "店铺不存在" }, { status: 404 });
     }
-    if (store.uploaderId !== session.user.id) {
+    if (store.uploaderId !== session.user.id && session.user.role !== "ADMIN") {
       return NextResponse.json({ error: "只能编辑自己上传的店铺" }, { status: 403 });
     }
 

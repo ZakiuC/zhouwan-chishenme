@@ -33,7 +33,7 @@ export default function StoreDetailPage() {
   if (isLoading) return <DetailSkeleton />;
   if (error || !store) return <EmptyState icon="alert" title="店铺不存在" description={error?.message} />;
 
-  const isOwner = session?.user?.id === store.uploader?.id;
+  const canEdit = session?.user?.id === store.uploader?.id || session?.user?.role === "ADMIN";
 
   return (
     <div className="space-y-5 pb-4 animate-fade-up">
@@ -53,7 +53,7 @@ export default function StoreDetailPage() {
             <span className="flex items-center gap-1"><Icon name="clock" size={12} />{formatDate(store.createdAt)}</span>
             {store.hasPrivateRoom && <span className="flex items-center gap-1 text-gold-400"><Icon name="sparkle" size={12} />有包厢</span>}
           </div>
-          {isOwner && <div className="pt-1"><Link href={`/stores/edit/${store.id}`}><Button variant="outline" size="sm"><Icon name="edit" size={14} className="mr-1" />编辑</Button></Link></div>}
+          {canEdit && <div className="pt-1"><Link href={`/stores/edit/${store.id}`}><Button variant="outline" size="sm"><Icon name="edit" size={14} className="mr-1" />编辑</Button></Link></div>}
         </div>
       </Card>
 
