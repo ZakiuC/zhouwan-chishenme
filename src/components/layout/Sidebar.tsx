@@ -49,6 +49,25 @@ export function Sidebar() {
             </button>
           );
         })}
+
+        {/* 管理员入口 */}
+        {session?.user?.role === "ADMIN" && (
+          <>
+            <div className="my-2 mx-3 h-px bg-base-500/30" />
+            <button onClick={() => router.push("/admin")}
+              className={cn(
+                "w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200",
+                active("/admin")
+                  ? "bg-accent-500/15 text-accent-300 border border-accent-500/20"
+                  : "text-paper-400 hover:text-paper-200 hover:bg-base-700/50"
+              )}
+            >
+              <Icon name="gear" size={18} />
+              系统管理
+              {active("/admin") && <span className="ml-auto w-1.5 h-1.5 rounded-full bg-accent-400" />}
+            </button>
+          </>
+        )}
       </nav>
 
       {session?.user && (
