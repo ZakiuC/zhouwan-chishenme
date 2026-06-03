@@ -74,17 +74,17 @@ export default function AdminStoresPage() {
     } catch (err: any) { showToast(err.message || "操作失败", "error"); }
   };
 
-  if (authStatus === "loading") return <div className="p-8 text-center text-paper-500">加载中...</div>;
+  if (authStatus === "loading") return <div className="p-8 text-center text-ink-500">加载中...</div>;
   if (session?.user?.role !== "ADMIN") return null;
 
   return (
     <div className="space-y-4 animate-fade-up">
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-2xs tracking-[0.15em] uppercase text-accent-400 font-semibold mb-1 select-none">
-            <a href="/admin" className="hover:text-accent-300">Admin</a> / Stores
+          <p className="text-2xs tracking-[0.15em] uppercase text-caramel-400 font-semibold mb-1 select-none">
+            <a href="/admin" className="hover:text-caramel-400">Admin</a> / Stores
           </p>
-          <h2 className="text-xl font-bold text-paper-100 flex items-center gap-2"><Icon name="edit" size={20} className="text-accent-400" />店铺管理</h2>
+          <h2 className="text-xl font-bold text-ink-50 flex items-center gap-2"><Icon name="edit" size={20} className="text-caramel-400" />店铺管理</h2>
         </div>
       </div>
 
@@ -94,7 +94,7 @@ export default function AdminStoresPage() {
           options={STATUS_OPTIONS} className="w-32" />
       </div>
 
-      <p className="text-xs text-paper-500 select-none">共 {total} 家店铺</p>
+      <p className="text-xs text-ink-500 select-none">共 {total} 家店铺</p>
 
       {loading ? (
         <div className="space-y-2"><CardSkeleton /><CardSkeleton /><CardSkeleton /></div>
@@ -107,7 +107,7 @@ export default function AdminStoresPage() {
               <div className="flex items-start justify-between gap-3">
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
-                    <h4 className="font-semibold text-paper-100 text-sm truncate">{store.name}</h4>
+                    <h4 className="font-semibold text-ink-50 text-sm truncate">{store.name}</h4>
                     <Badge variant="accent" size="sm">{catLabel(store.category)}</Badge>
                     <Badge variant={
                       store.status === "ACTIVE" ? "sage" :
@@ -117,7 +117,7 @@ export default function AdminStoresPage() {
                       {store.status === "ACTIVE" ? "正常" : store.status === "CLOSED" ? "已关闭" : "已删除"}
                     </Badge>
                   </div>
-                  <div className="flex items-center gap-3 text-2xs text-paper-500">
+                  <div className="flex items-center gap-3 text-2xs text-ink-500">
                     <span>上传者: {store.uploader?.nickname || "匿名"}</span>
                     <span>{store._count?.ratings || 0} 人评分</span>
                     <span>{formatRelativeTime(store.createdAt)}添加</span>
@@ -162,7 +162,7 @@ export default function AdminStoresPage() {
       {totalPages > 1 && (
         <div className="flex items-center justify-center gap-2 pt-2">
           <Button variant="outline" size="sm" disabled={page <= 1} onClick={() => setPage(page - 1)}>上一页</Button>
-          <span className="text-sm text-paper-400 tabular-nums">{page} / {totalPages}</span>
+          <span className="text-sm text-ink-300 tabular-nums">{page} / {totalPages}</span>
           <Button variant="outline" size="sm" disabled={page >= totalPages} onClick={() => setPage(page + 1)}>下一页</Button>
         </div>
       )}

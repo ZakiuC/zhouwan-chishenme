@@ -8,7 +8,7 @@ import { Icon } from "@/components/ui/Icon";
 // 雷达图按需加载，减少首屏 JS
 const RatingRadarChart = dynamic(
   () => import("./RatingRadarChart").then((m) => m.RatingRadarChart),
-  { ssr: false, loading: () => <div className="h-[280px] flex items-center justify-center"><div className="w-56 h-56 rounded-full bg-base-700/50 animate-pulse" /></div> }
+  { ssr: false, loading: () => <div className="h-[280px] flex items-center justify-center"><div className="w-56 h-56 rounded-full bg-ink-900/50 animate-pulse" /></div> }
 );
 
 interface Props { store: { avgWantScore: number; avgTasteScore: number; avgValueScore: number; avgAmbienceScore: number; avgSpeedScore: number; compositeScore: number; ratingCount: number; recommendCount: number; notRecommendCount: number; }; }
@@ -27,20 +27,20 @@ export function RatingSummary({ store }: Props) {
   return (
     <Card glow={store.compositeScore > 3.5}>
       <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-2 select-none"><Icon name="chart" size={18} className="text-accent-400" /><h3 className="font-semibold text-paper-200">评分总览</h3></div>
+        <div className="flex items-center gap-2 select-none"><Icon name="chart" size={18} className="text-caramel-400" /><h3 className="font-semibold text-ink-100">评分总览</h3></div>
         <div className="text-right">
-          <p className="text-2xl font-bold text-gold-400 tabular-nums">{store.compositeScore.toFixed(1)}</p>
-          <p className="text-2xs text-paper-500">{store.ratingCount} 人评分</p>
+          <p className="text-2xl font-bold text-caramel-400 tabular-nums">{store.compositeScore.toFixed(1)}</p>
+          <p className="text-2xs text-ink-500">{store.ratingCount} 人评分</p>
         </div>
       </div>
       {store.ratingCount > 0 && <div className="mb-4 flex justify-center"><RatingRadarChart data={radarData} size={280} /></div>}
-      <div className="space-y-2.5 bg-base-800/60 rounded-xl p-3">
+      <div className="space-y-2.5 bg-ink-900/60 rounded-xl p-3">
         {bars.map(b => <RatingBar key={b.key} label={b.label} score={b.score} />)}
       </div>
-      <div className="flex items-center gap-4 mt-4 pt-3 border-t border-base-500/30">
-        <div className="text-center flex-1"><p className="text-lg font-bold text-emerald-400">{store.recommendCount}</p><p className="text-2xs text-paper-500 flex items-center justify-center gap-1"><Icon name="thumbs-up" size={10} />推荐</p></div>
-        <div className="w-px h-8 bg-base-500/30" />
-        <div className="text-center flex-1"><p className="text-lg font-bold text-red-400">{store.notRecommendCount}</p><p className="text-2xs text-paper-500 flex items-center justify-center gap-1"><Icon name="cross" size={10} />不推荐</p></div>
+      <div className="flex items-center gap-4 mt-4 pt-3 border-t border-ink-800/30">
+        <div className="text-center flex-1"><p className="text-lg font-bold text-sage-400">{store.recommendCount}</p><p className="text-2xs text-ink-500 flex items-center justify-center gap-1"><Icon name="thumbs-up" size={10} />推荐</p></div>
+        <div className="w-px h-8 bg-ink-700/30" />
+        <div className="text-center flex-1"><p className="text-lg font-bold text-rust-400">{store.notRecommendCount}</p><p className="text-2xs text-ink-500 flex items-center justify-center gap-1"><Icon name="cross" size={10} />不推荐</p></div>
       </div>
     </Card>
   );

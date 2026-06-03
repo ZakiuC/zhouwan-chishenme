@@ -47,8 +47,8 @@ export default function StoresPage() {
     <div className="space-y-4 animate-fade-up">
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-2xs tracking-[0.15em] uppercase text-accent-400 font-semibold mb-1 select-none">Browse</p>
-          <h2 className="text-xl font-bold text-paper-100 flex items-center gap-2"><Icon name="list" size={20} className="text-accent-400" />店铺列表</h2>
+          <p className="text-2xs tracking-[0.15em] uppercase text-caramel-400 font-semibold mb-1 select-none">Browse</p>
+          <h2 className="text-xl font-bold text-ink-50 flex items-center gap-2"><Icon name="list" size={20} className="text-caramel-400" />店铺列表</h2>
         </div>
         <Link href="/stores/new"><Button size="sm" variant="secondary"><Icon name="plus" size={14} className="mr-1" />上传</Button></Link>
       </div>
@@ -65,11 +65,11 @@ export default function StoresPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 stagger">{stores.map((s: any) => <StoreCard key={s.id} store={s} />)}</div>
         {pagination.totalPages > 1 && <div className="flex items-center justify-center gap-2 pt-2">
           <Button variant="outline" size="sm" disabled={page <= 1} onClick={() => update({ page: String(page - 1) })}>上一页</Button>
-          <span className="text-sm text-paper-400 font-medium tabular-nums">{page} / {pagination.totalPages}</span>
+          <span className="text-sm text-ink-300 font-medium tabular-nums">{page} / {pagination.totalPages}</span>
           <Button variant="outline" size="sm" disabled={page >= pagination.totalPages} onClick={() => update({ page: String(page + 1) })}>下一页</Button>
         </div>}
       </>}
-      <p className="text-2xs text-paper-600 text-center select-none">共 {pagination.total} 家店铺</p>
+      <p className="text-2xs text-ink-500 text-center select-none">共 {pagination.total} 家店铺</p>
     </div>
   );
 }

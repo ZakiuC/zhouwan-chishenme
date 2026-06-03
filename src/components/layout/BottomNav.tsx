@@ -1,8 +1,7 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import { cn } from "@/lib/utils";
-import { Icon } from "@/components/ui/Icon";
+import { cn } from "@/lib/utils"; import { Icon } from "@/components/ui/Icon";
 
 const NAV = [
   { key: "home", label: "首页", icon: "home" as const, href: "/" },
@@ -13,33 +12,27 @@ const NAV = [
 ];
 
 export function BottomNav() {
-  const pathname = usePathname();
-  const router = useRouter();
+  const pathname = usePathname(); const router = useRouter();
   const active = (h: string) => h === "/" ? pathname === "/" : pathname.startsWith(h);
 
   return (
-    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-base-800/95 backdrop-blur-xl border-t border-base-500/20 safe-bottom select-none">
-      <div className="flex items-center justify-around h-[62px] max-w-lg mx-auto">
+    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-ink-950/95 ring-1 ring-ink-800/30 safe-bottom select-none">
+      <div className="flex items-center justify-around h-[60px] max-w-lg mx-auto">
         {NAV.map((item) => {
           const isActive = active(item.href);
           return (
             <button key={item.key} onClick={() => router.push(item.href)}
-              className={cn(
-                "flex flex-col items-center justify-center gap-0.5 min-w-[56px] py-1 px-2 transition-all duration-200 relative",
-                isActive ? "text-accent-300" : "text-paper-500 hover:text-paper-300"
-              )}
+              className={cn("flex flex-col items-center justify-center gap-0.5 min-w-[56px] py-1 px-2 transition-all duration-150 relative",
+                isActive ? "text-caramel-400" : "text-ink-500 hover:text-ink-300")}
             >
               {item.hl && (
-                <div className={cn(
-                  "absolute -top-3 flex items-center justify-center w-12 h-12 rounded-2xl shadow-lg transition-all duration-200",
-                  "bg-accent-500 text-white shadow-accent-500/30",
-                  "hover:shadow-accent-500/40 hover:scale-105 hover:-translate-y-0.5 active:scale-95"
-                )}>
-                  <Icon name={item.icon} size={20} />
+                <div className={cn("absolute -top-3 flex items-center justify-center w-11 h-11 shadow-intense transition-all duration-200",
+                  "bg-caramel-500 text-white hover:bg-caramel-400 hover:scale-105 active:scale-95")}>
+                  <Icon name={item.icon} size={18} />
                 </div>
               )}
-              {!item.hl && <Icon name={item.icon} size={20} />}
-              <span className="text-[10px] font-medium">{item.label}</span>
+              {!item.hl && <Icon name={item.icon} size={18} />}
+              <span className="text-[10px] font-semibold tracking-wide">{item.label}</span>
             </button>
           );
         })}

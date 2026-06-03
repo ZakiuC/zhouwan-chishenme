@@ -65,24 +65,24 @@ export default function AdminUsersPage() {
     } catch (err: any) { showToast(err.message || "操作失败", "error"); }
   };
 
-  if (authStatus === "loading") return <div className="p-8 text-center text-paper-500">加载中...</div>;
+  if (authStatus === "loading") return <div className="p-8 text-center text-ink-500">加载中...</div>;
   if (session?.user?.role !== "ADMIN") return null;
 
   return (
     <div className="space-y-4 animate-fade-up">
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-2xs tracking-[0.15em] uppercase text-accent-400 font-semibold mb-1 select-none">
-            <a href="/admin" className="hover:text-accent-300">Admin</a> / Users
+          <p className="text-2xs tracking-[0.15em] uppercase text-caramel-400 font-semibold mb-1 select-none">
+            <a href="/admin" className="hover:text-caramel-400">Admin</a> / Users
           </p>
-          <h2 className="text-xl font-bold text-paper-100 flex items-center gap-2"><Icon name="user" size={20} className="text-gold-400" />用户管理</h2>
+          <h2 className="text-xl font-bold text-ink-50 flex items-center gap-2"><Icon name="user" size={20} className="text-caramel-400" />用户管理</h2>
         </div>
       </div>
 
       <Select value={statusFilter} onChange={setStatusFilter}
         options={STATUS_OPTIONS} className="w-32" />
 
-      <p className="text-xs text-paper-500 select-none">共 {users.length} 个用户</p>
+      <p className="text-xs text-ink-500 select-none">共 {users.length} 个用户</p>
 
       {loading ? (
         <div className="space-y-2"><CardSkeleton /><CardSkeleton /></div>
@@ -95,8 +95,8 @@ export default function AdminUsersPage() {
               <div className="flex items-start justify-between gap-3">
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
-                    <h4 className="font-semibold text-paper-100 text-sm">{user.nickname || user.wechatId}</h4>
-                    <span className="text-2xs text-paper-500">{maskWechatId(user.wechatId)}</span>
+                    <h4 className="font-semibold text-ink-50 text-sm">{user.nickname || user.wechatId}</h4>
+                    <span className="text-2xs text-ink-500">{maskWechatId(user.wechatId)}</span>
                     <Badge variant={user.role === "ADMIN" ? "gold" : "default"} size="sm">
                       {user.role === "ADMIN" ? "管理员" : "用户"}
                     </Badge>
@@ -107,7 +107,7 @@ export default function AdminUsersPage() {
                       {user.hasPassword ? "有密码" : "无密码"}
                     </Badge>
                   </div>
-                  <div className="flex items-center gap-3 text-2xs text-paper-500">
+                  <div className="flex items-center gap-3 text-2xs text-ink-500">
                     <span>{user._count?.stores || 0} 家店铺</span>
                     <span>{user._count?.ratings || 0} 次评分</span>
                     <span>{formatRelativeTime(user.createdAt)}加入</span>

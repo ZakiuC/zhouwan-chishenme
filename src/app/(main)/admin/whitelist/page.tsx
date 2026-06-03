@@ -79,7 +79,7 @@ export default function WhitelistPage() {
     } catch (err: any) { showToast(err.message, "error"); }
   };
 
-  if (status === "loading") return <div className="p-8 text-center text-paper-500">加载中...</div>;
+  if (status === "loading") return <div className="p-8 text-center text-ink-500">加载中...</div>;
   if (session?.user?.role !== "ADMIN") return null;
 
   const registeredCount = entries.filter((e) => e.isUsed).length;
@@ -87,15 +87,15 @@ export default function WhitelistPage() {
   return (
     <div className="space-y-4 animate-fade-up">
       <div>
-        <p className="text-2xs tracking-[0.15em] uppercase text-accent-400 font-semibold mb-1 select-none">
-          <a href="/admin" className="hover:text-accent-300">Admin</a> / Whitelist
+        <p className="text-2xs tracking-[0.15em] uppercase text-caramel-400 font-semibold mb-1 select-none">
+          <a href="/admin" className="hover:text-caramel-400">Admin</a> / Whitelist
         </p>
-        <h2 className="text-xl font-bold text-paper-100 flex items-center gap-2"><Icon name="list" size={20} className="text-accent-400" />白名单管理</h2>
+        <h2 className="text-xl font-bold text-ink-50 flex items-center gap-2"><Icon name="list" size={20} className="text-caramel-400" />白名单管理</h2>
       </div>
 
       <Card>
         <div className="space-y-3">
-          <h4 className="font-semibold text-paper-200 text-sm select-none">添加微信号</h4>
+          <h4 className="font-semibold text-ink-100 text-sm select-none">添加微信号</h4>
           <Input placeholder="微信号" value={newId} onChange={(e) => setNewId(e.target.value)} />
           <Input placeholder="备注昵称（可选）" value={newNick} onChange={(e) => setNewNick(e.target.value)} />
           <Button className="w-full" onClick={handleAdd} loading={adding}>添加到白名单</Button>
@@ -105,7 +105,7 @@ export default function WhitelistPage() {
       <Card>
         <div className="space-y-3">
           <Input placeholder="搜索..." value={search} onChange={(e) => setSearch(e.target.value)} />
-          <p className="text-xs text-paper-500 select-none">共 {entries.length} 人（{registeredCount} 已注册）</p>
+          <p className="text-xs text-ink-500 select-none">共 {entries.length} 人（{registeredCount} 已注册）</p>
 
           {entries.length === 0 ? (
             <EmptyState icon="list" title="白名单为空" description="添加微信群成员的微信号" />
@@ -127,8 +127,8 @@ export default function WhitelistPage() {
                   ) : (
                     <>
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-paper-200 truncate">{entry.wechatId}</p>
-                        {entry.nickname && <p className="text-2xs text-paper-500">{entry.nickname}</p>}
+                        <p className="text-sm font-medium text-ink-100 truncate">{entry.wechatId}</p>
+                        {entry.nickname && <p className="text-2xs text-ink-500">{entry.nickname}</p>}
                       </div>
                       <div className="flex items-center gap-1 shrink-0">
                         <Badge variant={entry.isUsed ? "sage" : "default"}>{entry.isUsed ? "已注册" : "未注册"}</Badge>

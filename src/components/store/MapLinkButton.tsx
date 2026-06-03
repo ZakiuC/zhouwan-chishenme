@@ -26,7 +26,7 @@ function buildUrl(provider: string, url: string, name: string, lon?: number | nu
 }
 
 export function MapLinkButton({ provider, url, name, longitude, latitude }: MapLinkButtonProps) {
-  const style = PROVIDER_STYLES[provider] || { bg: "bg-base-500", label: "地图" };
+  const style = PROVIDER_STYLES[provider] || { bg: "bg-ink-700", label: "地图" };
   const jumpUrl = buildUrl(provider, url, name, longitude, latitude);
 
   const handleClick = () => {

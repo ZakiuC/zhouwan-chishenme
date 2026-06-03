@@ -11,25 +11,25 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant = "primary", size = "md", loading, disabled, children, ...props }, ref) => {
-    const base = "inline-flex items-center justify-center font-semibold rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-base-800 disabled:opacity-30 disabled:cursor-not-allowed select-none active:scale-[0.97]";
+    const base = "inline-flex items-center justify-center font-semibold tracking-wide transition-all duration-200 focus:outline-none disabled:opacity-20 disabled:cursor-not-allowed select-none";
 
     const variants: Record<string, string> = {
       primary:
-        "bg-accent-500 text-white hover:bg-accent-400 focus:ring-accent-400 shadow-glow hover:shadow-[0_0_28px_rgba(199,91,57,0.4)] hover:-translate-y-0.5",
+        "bg-caramel-500 text-white hover:bg-caramel-400 active:bg-caramel-600 shadow-lift hover:shadow-intense hover:-translate-y-px",
       secondary:
-        "bg-gold-500 text-base-900 hover:bg-gold-400 focus:ring-gold-400 shadow-glow-gold hover:shadow-[0_0_24px_rgba(208,160,90,0.35)] hover:-translate-y-0.5",
+        "bg-ink-700 text-ink-50 hover:bg-ink-600 active:bg-ink-800 shadow-lift",
       outline:
-        "border border-base-400 text-paper-200 hover:bg-base-600 hover:border-base-300 focus:ring-accent-400",
+        "ring-1 ring-ink-600 text-ink-300 hover:text-ink-50 hover:ring-caramel-500 hover:bg-caramel-500/5",
       ghost:
-        "text-paper-400 hover:text-paper-100 hover:bg-base-700 focus:ring-base-400",
+        "text-ink-400 hover:text-ink-50 hover:bg-ink-800",
       danger:
-        "bg-red-600 text-white hover:bg-red-500 focus:ring-red-400 shadow-lg hover:shadow-red-900/30",
+        "bg-rust-500 text-white hover:bg-rust-400 active:bg-rust-600 shadow-lift",
     };
 
     const sizes: Record<string, string> = {
-      sm: "h-8 px-3 text-xs gap-1.5 rounded-lg",
-      md: "h-10 px-5 text-sm gap-2",
-      lg: "h-12 px-6 text-base gap-2 rounded-2xl",
+      sm: "h-8 px-3 text-xs gap-1.5 rounded-md",
+      md: "h-10 px-4 text-sm gap-2 rounded-lg",
+      lg: "h-12 px-6 text-base gap-2 rounded-xl",
     };
 
     return (

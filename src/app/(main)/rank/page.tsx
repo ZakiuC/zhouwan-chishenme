@@ -12,11 +12,11 @@ import { Select } from "@/components/ui/Select";
 import { STORE_CATEGORIES } from "@/lib/constants";
 
 function RankBadge({ rank }: { rank: number }) {
-  const c = rank === 1 ? "text-gold-400" : rank === 2 ? "text-paper-300" : rank === 3 ? "text-amber-600" : "text-paper-500";
+  const c = rank === 1 ? "text-caramel-400" : rank === 2 ? "text-ink-200" : rank === 3 ? "text-caramel-700" : "text-ink-500";
   return (
     <div className="flex items-center justify-center shrink-0" style={{ width: 28, height: 28 }}>
       {rank <= 3 ? <Icon name="medal" size={rank <= 3 ? 24 : 14} className={c} />
-      : <span className="w-6 h-6 rounded-full bg-base-600 flex items-center justify-center text-2xs font-bold text-paper-400 select-none">{rank}</span>}
+      : <span className="w-6 h-6 rounded-full bg-ink-800 flex items-center justify-center text-2xs font-bold text-ink-300 select-none">{rank}</span>}
     </div>
   );
 }
@@ -44,14 +44,14 @@ function UserRankList() {
   const users = data?.users || [];
 
   return <div className="space-y-2">
-    {isLoading ? <div className="space-y-2">{[1,2,3].map(i => <Card key={i}><div className="flex items-center gap-3 h-12"><div className="h-7 w-7 bg-base-600 rounded-full animate-pulse" /><div className="flex-1 space-y-1"><div className="h-3 w-20 bg-base-600 rounded animate-shimmer" /><div className="h-2 w-28 bg-base-600 rounded animate-shimmer" /></div></div></Card>)}</div>
+    {isLoading ? <div className="space-y-2">{[1,2,3].map(i => <Card key={i}><div className="flex items-center gap-3 h-12"><div className="h-7 w-7 bg-ink-800 rounded-full animate-pulse" /><div className="flex-1 space-y-1"><div className="h-3 w-20 bg-ink-800 rounded animate-shimmer" /><div className="h-2 w-28 bg-ink-800 rounded animate-shimmer" /></div></div></Card>)}</div>
     : users.length === 0 ? <EmptyState icon="user" title="暂无排行" description="还没有用户贡献数据" />
     : <div className="stagger space-y-2">{users.map((u: any) => (
       <Card key={u.id}><div className="flex items-center gap-3">
         <RankBadge rank={u.rank} />
-        <div className="w-9 h-9 rounded-xl bg-accent-500/20 flex items-center justify-center text-accent-300 font-semibold text-sm border border-accent-500/20 select-none">{(u.nickname||"?")[0]}</div>
-        <div className="flex-1 min-w-0"><p className="text-sm font-semibold text-paper-200 truncate">{u.nickname}</p><p className="text-2xs text-paper-500">{u.storeCount} 家店铺 · {u.ratingCount} 次评分</p></div>
-        <div className="text-right"><p className="text-lg font-bold text-gold-400 tabular-nums">{u.contributionScore}</p><p className="text-2xs text-paper-600">贡献分</p></div>
+        <div className="w-9 h-9 rounded-xl bg-caramel-500/20 flex items-center justify-center text-caramel-400 font-semibold text-sm border border-caramel-500/20 select-none">{(u.nickname||"?")[0]}</div>
+        <div className="flex-1 min-w-0"><p className="text-sm font-semibold text-ink-100 truncate">{u.nickname}</p><p className="text-2xs text-ink-500">{u.storeCount} 家店铺 · {u.ratingCount} 次评分</p></div>
+        <div className="text-right"><p className="text-lg font-bold text-caramel-400 tabular-nums">{u.contributionScore}</p><p className="text-2xs text-ink-500">贡献分</p></div>
       </div></Card>
     ))}</div>}
   </div>;
@@ -60,7 +60,7 @@ function UserRankList() {
 export default function RankPage() {
   const [tab, setTab] = useState("stores");
   return <div className="space-y-5 animate-fade-up">
-    <div><p className="text-2xs tracking-[0.15em] uppercase text-accent-400 font-semibold mb-1 select-none">Leaderboard</p><h2 className="text-xl font-bold text-paper-100 flex items-center gap-2"><Icon name="trophy" size={22} className="text-gold-400" />排行榜</h2></div>
+    <div><p className="text-2xs tracking-[0.15em] uppercase text-caramel-400 font-semibold mb-1 select-none">Leaderboard</p><h2 className="text-xl font-bold text-ink-50 flex items-center gap-2"><Icon name="trophy" size={22} className="text-caramel-400" />排行榜</h2></div>
     <Tabs tabs={[{ key: "stores", label: "店铺排行" },{ key: "users", label: "贡献排行" }]} activeKey={tab} onChange={setTab} />
     {tab === "stores" ? <StoreRankList /> : <UserRankList />}
   </div>;

@@ -18,9 +18,9 @@ export function Card({ children, className, onClick, padding = "md", glow = fals
   return (
     <Component
       className={cn(
-        "bg-base-700/80 backdrop-blur-sm rounded-2xl border border-base-500/50 shadow-card select-none",
-        glow && "shadow-glow border-accent-500/20",
-        onClick && "cursor-pointer hover:bg-base-600/80 hover:border-base-400/50 hover:shadow-card-hover active:scale-[0.99] hover:-translate-y-0.5 w-full text-left transition-all duration-300",
+        "bg-ink-800/60 ring-1 ring-ink-700/50 select-none",
+        glow && "ring-caramel-500/30 shadow-intense",
+        onClick && "cursor-pointer hover:bg-ink-700/60 hover:ring-caramel-500/20 hover:shadow-card-hover active:scale-[0.995] w-full text-left transition-all duration-200",
         !onClick && "transition-colors duration-200",
         p[padding],
         className

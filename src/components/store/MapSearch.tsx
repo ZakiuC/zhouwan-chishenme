@@ -61,7 +61,7 @@ export function MapSearch({ onSelect, onClose }: MapSearchProps) {
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between">
-        <h4 className="font-semibold text-paper-200 text-sm select-none flex items-center gap-1">
+        <h4 className="font-semibold text-ink-100 text-sm select-none flex items-center gap-1">
           <Icon name="search" size={14} />搜索店铺
         </h4>
         <Button variant="ghost" size="sm" onClick={onClose}>
@@ -87,19 +87,19 @@ export function MapSearch({ onSelect, onClose }: MapSearchProps) {
         </Button>
       </div>
 
-      {error && <p className="text-xs text-red-400">{error}</p>}
+      {error && <p className="text-xs text-rust-400">{error}</p>}
 
       {results.length > 0 && (
         <div className="space-y-1.5 max-h-64 overflow-y-auto">
           {results.map((r, i) => (
             <Card key={i} padding="sm" onClick={() => handleSelect(r)}
-              className="cursor-pointer hover:border-accent-500/30 transition-all">
+              className="cursor-pointer hover:border-caramel-500/30 transition-all">
               <div className="flex items-start justify-between gap-2">
                 <div className="min-w-0">
-                  <p className="text-sm font-medium text-paper-100 truncate">{r.name}</p>
-                  <p className="text-2xs text-paper-500 truncate mt-0.5">{r.address}</p>
+                  <p className="text-sm font-medium text-ink-50 truncate">{r.name}</p>
+                  <p className="text-2xs text-ink-500 truncate mt-0.5">{r.address}</p>
                 </div>
-                <span className="text-2xs text-accent-400 shrink-0 mt-1">选择</span>
+                <span className="text-2xs text-caramel-400 shrink-0 mt-1">选择</span>
               </div>
             </Card>
           ))}
@@ -107,7 +107,7 @@ export function MapSearch({ onSelect, onClose }: MapSearchProps) {
       )}
 
       {searched && !loading && results.length === 0 && !error && (
-        <p className="text-xs text-paper-500 text-center py-4">未找到结果</p>
+        <p className="text-xs text-ink-500 text-center py-4">未找到结果</p>
       )}
     </div>
   );
