@@ -217,6 +217,7 @@ export function Icon({ name, size = 24, className }: IconProps) {
       strokeLinecap="round"
       strokeLinejoin="round"
       className={cn("shrink-0 select-none", className)}
+      style={{ cursor: "default" }}
     >
       {paths.map((p, i) => (
         <path
