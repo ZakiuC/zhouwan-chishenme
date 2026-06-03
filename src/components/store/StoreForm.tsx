@@ -45,7 +45,6 @@ export function StoreForm({ initialData, storeId }: { initialData?: FormData; st
         { provider, url: buildMapUrl(provider, result) },
       ],
     }));
-    setShowMapSearch(false);
     showToast("已自动填充店铺信息", "success");
   };
 
