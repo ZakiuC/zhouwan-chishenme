@@ -15,7 +15,7 @@ function getKeys() {
 function buildUrl(provider: string, kw: string, city: string, key: string): string {
   switch (provider) {
     case "amap":
-      return `https://restapi.amap.com/v5/place/text?keywords=${encodeURIComponent(kw)}&region=${encodeURIComponent(city || "全国")}&key=${key}&types=050000`;
+      return `https://restapi.amap.com/v3/place/text?keywords=${encodeURIComponent(kw)}&city=${encodeURIComponent(city || "全国")}&key=${key}&types=050000&offset=10&page=1&extensions=base`;
     case "baidu":
       return `https://api.map.baidu.com/place/v2/search?query=${encodeURIComponent(kw)}&region=${encodeURIComponent(city || "全国")}&output=json&ak=${key}`;
     case "tencent":
