@@ -27,7 +27,7 @@ export function RatingRadarChart({ data, size = 280 }: RadarChartProps) {
   });
 
   return (
-    <svg viewBox={`0 0 ${size} ${size}`} width={size} height={size} className="mx-auto select-none">
+    <svg viewBox={`-30 -30 ${size + 60} ${size + 60}`} width={size} height={size} className="mx-auto select-none">
       {grids.map((pts, i) => (
         <polygon key={i} points={pts} fill="none" stroke={i === levels-1 ? "#3A3129" : "#2D261F"} strokeWidth={i === levels-1 ? 1.5 : 0.5} />
       ))}
