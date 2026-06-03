@@ -62,7 +62,7 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const keyword = searchParams.get("keyword") || "";
     const city = searchParams.get("city") || "";
-    const provider = searchParams.get("provider") || "amap";
+    const provider = (searchParams.get("provider") || "amap").toLowerCase();
 
     if (!keyword.trim()) {
       return NextResponse.json({ error: "请输入搜索关键词" }, { status: 400 });
