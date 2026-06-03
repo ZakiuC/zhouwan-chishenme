@@ -5,7 +5,7 @@ import { RATING_DIMENSIONS } from "@/lib/constants";
 interface RadarChartProps { data: Record<string, number>; size?: number; }
 
 export function RatingRadarChart({ data, size = 280 }: RadarChartProps) {
-  const cx = size / 2, cy = size / 2, radius = size * 0.32, levels = 5;
+  const cx = size / 2, cy = size / 2, radius = size * 0.28, levels = 5;
   const angles = RATING_DIMENSIONS.map((_,i) => (Math.PI * 2 * i) / RATING_DIMENSIONS.length - Math.PI / 2);
   const toCart = (angle: number, r: number) => ({ x: cx + r * Math.cos(angle), y: cy + r * Math.sin(angle) });
 
@@ -20,7 +20,7 @@ export function RatingRadarChart({ data, size = 280 }: RadarChartProps) {
   const axes = angles.map(a => { const e = toCart(a, radius); return { x1: cx, y1: cy, x2: e.x, y2: e.y }; });
 
   const labels = angles.map((a, i) => {
-    const pos = toCart(a, radius + 28);
+    const pos = toCart(a, radius + 36);
     let anchor: "start"|"middle"|"end" = "middle";
     if (Math.abs(pos.x - cx) > 5) anchor = pos.x < cx ? "end" : "start";
     return { ...pos, text: RATING_DIMENSIONS[i].label, anchor };
