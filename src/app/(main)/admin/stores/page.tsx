@@ -124,13 +124,31 @@ export default function AdminStoresPage() {
                   </div>
                 </div>
                 <div className="flex gap-1.5 shrink-0">
-                  {store.status !== "ACTIVE" && (
-                    <Button variant="secondary" size="sm" onClick={() => updateStatus(store.id, "ACTIVE")}>
-                      恢复
+                  {store.status === "ACTIVE" && (
+                    <Button variant="outline" size="sm" onClick={() => updateStatus(store.id, "CLOSED")}>
+                      关闭
                     </Button>
                   )}
-                  {store.status !== "DELETED" && (
-                    <Button variant="danger" size="sm" onClick={() => updateStatus(store.id, "DELETED")}>
+                  {store.status === "CLOSED" && (
+                    <>
+                      <Button variant="secondary" size="sm" onClick={() => updateStatus(store.id, "ACTIVE")}>
+                        恢复
+                      </Button>
+                      <Button variant="danger" size="sm" onClick={() => {
+                        if (confirm(`永久删除 "${store.name}" ？此操作不可撤销。`)) {
+                          updateStatus(store.id, "DELETED");
+                        }
+                      }}>
+                        删除
+                      </Button>
+                    </>
+                  )}
+                  {store.status === "ACTIVE" && (
+                    <Button variant="danger" size="sm" onClick={() => {
+                      if (confirm(`永久删除 "${store.name}" ？此操作不可撤销。`)) {
+                        updateStatus(store.id, "DELETED");
+                      }
+                    }}>
                       删除
                     </Button>
                   )}

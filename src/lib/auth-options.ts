@@ -1,7 +1,8 @@
-// NextAuth 认证配置
+// NextAuth 认证配置 — 微信号 + 密码
 
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 
 const ADMIN_IDS = (process.env.ADMIN_WECHAT_IDS || "")
@@ -15,11 +16,8 @@ export const authOptions: NextAuthOptions = {
       id: "wechat",
       name: "微信号",
       credentials: {
-        wechatId: {
-          label: "微信号",
-          type: "text",
-          placeholder: "请输入你的微信号",
-        },
+        wechatId: { label: "微信号", type: "text" },
+        password: { label: "密码", type: "password" },
       },
       async authorize(credentials) {
         if (!credentials?.wechatId) {
@@ -33,18 +31,36 @@ export const authOptions: NextAuthOptions = {
           where: { wechatId },
         });
 
-        if (!whitelistEntry) {
+        // 管理员自动入白名单
+        if (!whitelistEntry && ADMIN_IDS.includes(wechatId)) {
+          await prisma.whitelist.create({
+            data: { wechatId, nickname: "管理员" },
+          });
+        } else if (!whitelistEntry) {
           throw new Error("WHITELIST_NOT_FOUND");
         }
 
-        // 检查是否已被注册
-        if (whitelistEntry.isUsed) {
-          // 已注册用户，返回已有账户
-          const existingUser = await prisma.user.findUnique({
-            where: { wechatId },
-          });
-          if (!existingUser) {
-            throw new Error("用户数据异常，请联系管理员");
+        // 已有用户 → 校验密码
+        const existingUser = await prisma.user.findUnique({
+          where: { wechatId },
+        });
+
+        if (existingUser) {
+          // 封禁检查
+          if (existingUser.status === "BANNED") {
+            throw new Error("ACCOUNT_BANNED");
+          }
+          // 未设密码 → 抛出特殊标记，前端引导设置密码
+          if (!existingUser.passwordHash) {
+            throw new Error("PASSWORD_NOT_SET");
+          }
+          // 验证密码
+          if (!credentials.password) {
+            throw new Error("请输入密码");
+          }
+          const valid = await bcrypt.compare(credentials.password, existingUser.passwordHash);
+          if (!valid) {
+            throw new Error("密码错误");
           }
           return {
             id: existingUser.id,
@@ -54,19 +70,27 @@ export const authOptions: NextAuthOptions = {
           };
         }
 
-        // 新用户注册
+        // 新用户 — 必须提供密码
+        if (!credentials.password) {
+          throw new Error("请设置密码");
+        }
+
         const isAdmin = ADMIN_IDS.includes(wechatId);
+        const passwordHash = await bcrypt.hash(credentials.password, 10);
+
         const [user] = await prisma.$transaction([
           prisma.user.create({
             data: {
               wechatId,
-              nickname: whitelistEntry.nickname || wechatId,
+              nickname: whitelistEntry?.nickname || wechatId,
               role: isAdmin ? "ADMIN" : "USER",
+              passwordHash,
             },
           }),
-          prisma.whitelist.update({
+          prisma.whitelist.upsert({
             where: { wechatId },
-            data: { isUsed: true },
+            update: { isUsed: true },
+            create: { wechatId, isUsed: true },
           }),
         ]);
 

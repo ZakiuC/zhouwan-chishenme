@@ -21,11 +21,13 @@ model Whitelist {
 
 // ==================== 用户 ====================
 model User {
-  id        String   @id @default(cuid())
-  wechatId  String   @unique
-  nickname  String?
-  avatarUrl String?
-  role      String   @default("USER")
+  id           String   @id @default(cuid())
+  wechatId     String   @unique
+  nickname     String?
+  avatarUrl    String?
+  role         String   @default("USER")
+  passwordHash String?
+  status       String   @default("ACTIVE")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
