@@ -57,6 +57,7 @@ export async function GET(request: Request) {
           ratingCount: true,
           recommendCount: true,
           createdAt: true,
+          hasPrivateRoom: true,
           uploader: {
             select: { nickname: true },
           },

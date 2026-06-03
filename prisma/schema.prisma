@@ -47,6 +47,7 @@ model Store {
   category    String?
   address     String?
   status      String  @default("ACTIVE")
+  hasPrivateRoom Boolean @default(false)
 
   uploaderId String
   uploader   User   @relation(fields: [uploaderId], references: [id], onDelete: Cascade)

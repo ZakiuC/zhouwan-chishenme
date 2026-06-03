@@ -13,6 +13,7 @@ interface StoreCardProps {
     id: string; name: string; category: string | null; avgWantScore: number;
     compositeScore: number; ratingCount: number; recommendCount: number;
     createdAt: Date | string;
+    hasPrivateRoom?: boolean;
     uploader?: { nickname: string | null } | null;
     _count?: { ratings: number } | null;
   };
@@ -41,9 +42,10 @@ export const StoreCard = memo(function StoreCard({ store, compact = false }: Sto
           <Stars score={store.compositeScore || store.avgWantScore} size={14} />
           <span className="text-xs font-medium text-paper-400">{(store.compositeScore || store.avgWantScore).toFixed(1)}</span>
         </div>
-        <div className="flex items-center gap-3 text-2xs text-paper-500">
+        <div className="flex items-center gap-3 text-2xs text-paper-500 flex-wrap">
           <span className="flex items-center gap-0.5"><Icon name="thumbs-up" size={11} />{store.recommendCount || 0}</span>
           <span className="flex items-center gap-0.5"><Icon name="pencil" size={11} />{(store._count?.ratings ?? store.ratingCount) || 0} 人评分</span>
+          {!compact && store.hasPrivateRoom && <span className="flex items-center gap-0.5 text-gold-400"><Icon name="sparkle" size={11} />包厢</span>}
           {!compact && store.uploader && <span className="flex items-center gap-0.5"><Icon name="user" size={11} />{store.uploader.nickname || "匿名"}</span>}
         </div>
         {!compact && <p className="text-2xs text-paper-600">{formatRelativeTime(store.createdAt)}添加</p>}

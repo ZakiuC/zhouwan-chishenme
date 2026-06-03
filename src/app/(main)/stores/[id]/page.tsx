@@ -51,6 +51,7 @@ export default function StoreDetailPage() {
           <div className="flex items-center gap-3 text-2xs text-paper-500 pt-2 border-t border-base-500/20">
             <span className="flex items-center gap-1"><Icon name="user" size={12} />{store.uploader?.nickname || "匿名"}</span>
             <span className="flex items-center gap-1"><Icon name="clock" size={12} />{formatDate(store.createdAt)}</span>
+            {store.hasPrivateRoom && <span className="flex items-center gap-1 text-gold-400"><Icon name="sparkle" size={12} />有包厢</span>}
           </div>
           {isOwner && <div className="pt-1"><Link href={`/stores/edit/${store.id}`}><Button variant="outline" size="sm"><Icon name="edit" size={14} className="mr-1" />编辑</Button></Link></div>}
         </div>

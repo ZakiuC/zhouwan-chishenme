@@ -20,6 +20,6 @@ export default function EditStorePage() {
       <p className="text-2xs tracking-[0.15em] uppercase text-accent-400 font-semibold mb-1 select-none">Edit</p>
       <h2 className="text-xl font-bold text-paper-100 flex items-center gap-2"><Icon name="edit" size={20} className="text-accent-400" />编辑店铺</h2>
     </div>
-    <StoreForm storeId={store.id} initialData={{ name: store.name, description: store.description || "", category: store.category || "", address: store.address || "", mapLinks: (store.mapLinks || []).map((ml: any) => ({ provider: ml.provider, url: ml.url })) }} />
+    <StoreForm storeId={store.id} initialData={{ name: store.name, description: store.description || "", category: store.category || "", address: store.address || "", hasPrivateRoom: store.hasPrivateRoom || false, mapLinks: (store.mapLinks || []).map((ml: any) => ({ provider: ml.provider, url: ml.url })) }} />
   </div>;
 }

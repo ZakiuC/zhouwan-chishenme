@@ -10,6 +10,7 @@ export const storeCreateSchema = z.object({
   description: z.string().max(500, "描述最多500个字符").optional(),
   category: z.string().optional(),
   address: z.string().max(200, "地址最多200个字符").optional(),
+  hasPrivateRoom: z.boolean().optional(),
   mapLinks: z
     .array(
       z.object({
