@@ -87,10 +87,28 @@ export async function PUT(
       );
     }
 
-    const { mapLinks: _, ...updateData } = validation.data;
-    const updated = await prisma.store.update({
+    const { mapLinks, ...updateData } = validation.data;
+
+    // 更新店铺基本信息
+    await prisma.store.update({
       where: { id: params.id },
       data: updateData,
+    });
+
+    // 如果有地图链接，先删旧的再建新的
+    if (mapLinks && mapLinks.length > 0) {
+      await prisma.mapLink.deleteMany({ where: { storeId: params.id } });
+      await prisma.mapLink.createMany({
+        data: mapLinks.map((ml) => ({
+          storeId: params.id,
+          provider: ml.provider,
+          url: ml.url,
+        })),
+      });
+    }
+
+    const updated = await prisma.store.findUnique({
+      where: { id: params.id },
       include: {
         mapLinks: true,
         uploader: { select: { nickname: true } },
