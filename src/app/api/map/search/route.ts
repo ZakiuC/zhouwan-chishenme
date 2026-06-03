@@ -68,12 +68,14 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: "请输入搜索关键词" }, { status: 400 });
     }
 
-    // 每次请求时读取，确保 Vercel 环境变量生效
+    // 每次请求时读取
     const keys = getKeys();
     const key = keys[provider as keyof typeof keys];
     if (!key) {
+      // 返回哪些 Key 已配置，帮助排查
+      const configured = Object.entries(keys).filter(([, v]) => v).map(([k]) => k);
       return NextResponse.json({
-        error: `${provider} 地图 Key 未配置`,
+        error: `${provider} 地图 Key 未配置。已配置的地图: ${configured.length ? configured.join(", ") : "无"}`,
         results: [],
       });
     }
