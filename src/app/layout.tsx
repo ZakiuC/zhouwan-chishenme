@@ -3,6 +3,7 @@
 import type { Metadata, Viewport } from "next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Providers } from "@/components/layout/Providers";
+import { CursorFix } from "@/components/layout/CursorFix";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -36,14 +37,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="zh-CN">
-      <head>
-        <style dangerouslySetInnerHTML={{ __html: `
-          *, *::before, *::after { cursor: default !important; }
-          input, textarea, select, [contenteditable] { cursor: text !important; }
-          a, button, [role="button"], [tabindex]:not([tabindex="-1"]) { cursor: pointer !important; }
-        `}} />
-      </head>
       <body>
+        <CursorFix />
         <Providers>{children}</Providers>
         <SpeedInsights />
       </body>
